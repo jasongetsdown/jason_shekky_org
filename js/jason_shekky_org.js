@@ -159,7 +159,6 @@
 				.pulse(cursorFInTime, cursorFOutTime);
 		
 		bindCursorEvents($cursor);
-		alert('blah!');
 	});
 })(jQuery);
 

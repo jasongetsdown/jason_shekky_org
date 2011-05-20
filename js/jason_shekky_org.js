@@ -114,7 +114,7 @@
 		var jqxhr = $.ajax({ url: 'factcount.php' })
 			.success(function() { 
 				var i;
-				factCount = parseInt(jqxhr.responseText)
+				factCount = parseInt(jqxhr.responseText, 10);
 				for (i=1; i<=factCount; i++) {
 					imageObj.src = getPathForFact(i);
 				}
@@ -159,6 +159,7 @@
 				.pulse(cursorFInTime, cursorFOutTime);
 		
 		bindCursorEvents($cursor);
+		alert('blah!');
 	});
 })(jQuery);
 

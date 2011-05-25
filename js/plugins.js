@@ -22,15 +22,12 @@
 
 
 /*
-
 For concurrent animations of multiple properties call like:
 $('#foo').stretch({
 	up: 200,
 	toRight: 400
 }, 1000, 'swing', complete);
-
 */
-
 
 (function($) {
 // .move() and .stretch() plugins
@@ -80,7 +77,7 @@ $('#foo').stretch({
 	},
 	
 	transform = function( properties, duration, easing, complete, stretch ) {
-		var props = $.extend( {}, defaults, properties );
+		var p, props = $.extend( {}, defaults, properties );
 		aggregator.reset();
 		
 		for (p in props) {

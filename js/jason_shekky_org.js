@@ -23,7 +23,7 @@
 	var loadContent = function() {
 		$('#content').click(closeCard);
 		initP5( document.getElementById('p5canvas') );
-		$('#p5canvas').fadeIn(1000);
+		$('#p5canvas').fadeIn('fast');
 	};
 	
 	var closeCard = function() {

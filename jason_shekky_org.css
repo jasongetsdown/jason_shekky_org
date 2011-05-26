@@ -55,4 +55,5 @@ div#content #cursor {
 }
 
 canvas#p5canvas {
+	display: none;
 }

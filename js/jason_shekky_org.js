@@ -4,15 +4,6 @@
 		cursorFInTime = 800,
 		cursorFOutTime = 4500;
 	
-	var initP5 = function(canvas) {
-		var p5sketch = function(processing) {
-			var p = processing;
-			p.line(0,0,100,100);
-		};
-		
-		var p = new Processing(canvas, p5sketch);
-	};
-	
 	var unloadContent = function() {
 		$('#content').unbind('click', closeCard);
 		
@@ -22,7 +13,7 @@
 	
 	var loadContent = function() {
 		$('#content').click(closeCard);
-		initP5( document.getElementById('p5canvas') );
+		mySketch.init( document.getElementById('p5canvas') );
 		$('#p5canvas').fadeIn('fast');
 	};
 	
@@ -43,9 +34,9 @@
 		
 		$cursor = $('#cursor')
 			.delay(600)
-			.pulse(cursorFInTime, cursorFOutTime);
-		
-		bindCursorEvents($cursor);
+			.pulse(cursorFInTime, cursorFOutTime)
+			.bindCursorEvents();
+			
 		isOpen = false;
 	};
 	
@@ -57,7 +48,8 @@
 		$('#cursor')
 			.stop()
 			.fadeOut(35)
-			.pulse(35, 35, 'linear', 4);
+			.pulse(35, 35, 'linear', 4)
+			.unbindCursorEvents();
 		
 		$('#blurBG')
 			.delay(600)
@@ -80,24 +72,28 @@
 		imageObj.src = 'images/fallen-lines.jpg';
 		imageObj.src = 'images/fallen-lines-blur.jpg';
 		imageObj.src = 'images/jr_title.jpg';
-	}(),
+	}();
 	
-	bindCursorEvents = function($cursor) {
-		$cursor
+	$.fn.bindCursorEvents = function() {
+		var self = this;
+		self
 			.bind('mouseenter.cursorEvents', function() {
-				$cursor
+				self
 					.stop(true)
 					.fadeTo('fast', 1);
 			})
 			.bind('mouseleave.cursorEvents', function() {
-				$cursor
+				self
 					.fadeOut(cursorFOutTime, 'swing')
 					.pulse(cursorFInTime, cursorFOutTime);
 			})
 			.bind('click.cursorEvents', function() {
-				$cursor.unbind('.cursorEvents');
 				openCard();
 			});
+	};
+	
+	$.fn.unbindCursorEvents = function() {
+		this.unbind('.cursorEvents');
 	};
 
 	$(document).ready(function() {
@@ -113,10 +109,8 @@
 			.clone()
 				.attr('id', 'cursor')
 				.appendTo('#content')
-				.pulse(cursorFInTime, cursorFOutTime);
-		
-		bindCursorEvents($cursor);
-//		initP5();
+				.pulse(cursorFInTime, cursorFOutTime)
+				.bindCursorEvents();
 	});
 })(jQuery);
 

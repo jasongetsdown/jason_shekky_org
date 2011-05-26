@@ -5,7 +5,7 @@ body {
     margin: 0;
     margin-left: -28px;
     padding: 0;
-    }
+}
 
 div#container {
     background: url("images/fallen-lines.jpg");
@@ -17,7 +17,7 @@ div#container {
     margin-right: auto;
     padding: 0;
     border: 0;
-    }
+}
     
 div#container #blurBG {
     background: url("images/fallen-lines-blur.jpg");
@@ -28,7 +28,7 @@ div#container #blurBG {
     padding: 0;
     border: 0;
     display: none;
-    }
+}
 
 div#content {
 	background-color: white;
@@ -40,7 +40,7 @@ div#content {
 	margin: 0;
 	padding: 0;
 	border: 1px solid #996699;
-	}
+}
 	
 div#content #cursor {
     background-color: #996699;
@@ -52,13 +52,7 @@ div#content #cursor {
     border: 0;
 	display: none;
 	cursor: pointer;
-    }
-    
-div#content img {
-	margin-top: 70px;
-	display: none;
-	}
+}
 
-div#content img#fact {
-	margin-top: 33px;
-	}
+canvas#p5canvas {
+}

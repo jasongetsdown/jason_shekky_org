@@ -1,66 +1,32 @@
-
 (function($) {
 	
 	var isOpen = false,
-	cursorFInTime = 800,
-	cursorFOutTime = 4500,
-	factCount = -1,
-	lastFactNum = -1,
-	factTimeoutID,
+		cursorFInTime = 800,
+		cursorFOutTime = 4500;
 	
-	getPathForFact = function(i) {
-		if (i < 10) {
-			return ('images/facts/fact_0' + i + '.jpg');
-		} else {
-			return ('images/facts/fact_' + i + '.jpg');
-		}
-	},
+	var initP5 = function(canvas) {
+		var p5sketch = function(processing) {
+			var p = processing;
+			p.line(0,0,100,100);
+		};
+		
+		var p = new Processing(canvas, p5sketch);
+	};
 	
-	getRandomFactPath = function() {
-		var factNum = Math.floor( Math.random() * (factCount) + 1);
-		if (factNum !== lastFactNum) {
-			lastFactNum = factNum;
-			return getPathForFact(factNum);
-		} else {
-			lastFactNum = -1;	//prevents infinite loop in the case where there is only one image
-			return getRandomFactPath();
-		}
-	},
-	
-	newFact = function() {
-		if (factCount > 0) {
-			$('#fact')
-				.fadeOut('slow', function() {
-					$(this).attr('src', getRandomFactPath());
-				})
-				.delay(500)
-				.fadeIn(1000);
-				
-			if (factCount > 1) {
-				factTimeoutID = window.setTimeout(newFact, 8000);
-			}
-		} else if (factCount < 0) {
-			factTimeoutID = window.setTimeout(newFact, 250);
-		}
-	},
-	
-	unloadContent = function() {
+	var unloadContent = function() {
 		$('#content').unbind('click', closeCard);
 		
-		window.clearTimeout(factTimeoutID);
-		$('#title, #fact')
-			.stop(true, true)
+		$('#p5canvas')
 			.fadeOut('fast');
-	},
+	};
 	
-	loadContent = function() {
+	var loadContent = function() {
 		$('#content').click(closeCard);
-		
-		$('#title').fadeIn(1000);
-		factTimeoutID = window.setTimeout(newFact, 1900);
-	},
+		initP5( document.getElementById('p5canvas') );
+		$('#p5canvas').fadeIn(1000);
+	};
 	
-	closeCard = function() {
+	var closeCard = function() {
 		if (!isOpen) {
 			return;
 		}
@@ -81,9 +47,9 @@
 		
 		bindCursorEvents($cursor);
 		isOpen = false;
-	},
+	};
 	
-	openCard = function() {
+	var openCard = function() {
 		if (isOpen) {
 			return;
 		}
@@ -106,20 +72,11 @@
 			}, 200, 'linear', loadContent );
 		
 		isOpen = true;
-	},
+	};
 	
 	// self executing
-	preloadImages = function() {
+	var preloadImages = function() {
 		var imageObj = new Image();
-		var jqxhr = $.ajax({ url: 'factcount.php' })
-			.success(function() { 
-				var i;
-				factCount = parseInt(jqxhr.responseText, 10);
-				for (i=1; i<=factCount; i++) {
-					imageObj.src = getPathForFact(i);
-				}
-			});
-	
 		imageObj.src = 'images/fallen-lines.jpg';
 		imageObj.src = 'images/fallen-lines-blur.jpg';
 		imageObj.src = 'images/jr_title.jpg';
@@ -159,6 +116,7 @@
 				.pulse(cursorFInTime, cursorFOutTime);
 		
 		bindCursorEvents($cursor);
+//		initP5();
 	});
 })(jQuery);
 

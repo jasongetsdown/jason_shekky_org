@@ -35,7 +35,7 @@
 		$cursor = $('#cursor')
 			.delay(600)
 			.pulse(cursorFInTime, cursorFOutTime)
-			.bindCursorEvents();
+			.bindCursorEvents(cursorFInTime, cursorFOutTime, openCard);
 			
 		isOpen = false;
 	};
@@ -74,28 +74,6 @@
 		imageObj.src = 'images/jr_title.jpg';
 	}();
 	
-	$.fn.bindCursorEvents = function() {
-		var self = this;
-		self
-			.bind('mouseenter.cursorEvents', function() {
-				self
-					.stop(true)
-					.fadeTo('fast', 1);
-			})
-			.bind('mouseleave.cursorEvents', function() {
-				self
-					.fadeOut(cursorFOutTime, 'swing')
-					.pulse(cursorFInTime, cursorFOutTime);
-			})
-			.bind('click.cursorEvents', function() {
-				openCard();
-			});
-	};
-	
-	$.fn.unbindCursorEvents = function() {
-		this.unbind('.cursorEvents');
-	};
-
 	$(document).ready(function() {
 		var $cursor,
 		$newDiv = $('<div>');
@@ -110,7 +88,7 @@
 				.attr('id', 'cursor')
 				.appendTo('#content')
 				.pulse(cursorFInTime, cursorFOutTime)
-				.bindCursorEvents();
+				.bindCursorEvents(cursorFInTime, cursorFOutTime, openCard);
 	});
 })(jQuery);
 

@@ -21,6 +21,31 @@
 })(jQuery);
 
 
+(function($) {
+	$.fn.bindCursorEvents = function(fadeInTime, fadeOutTime, callBack) {
+		var self = this;
+		self
+			.bind('mouseenter.cursorEvents', function() {
+				self
+					.stop(true)
+					.fadeTo('fast', 1);
+			})
+			.bind('mouseleave.cursorEvents', function() {
+				self
+					.fadeOut(fadeInTime, 'swing')
+					.pulse(fadeInTime, fadeOutTime);
+			})
+			.bind('click.cursorEvents', function() {
+				callBack();
+			});
+	};
+	
+	$.fn.unbindCursorEvents = function() {
+		this.unbind('.cursorEvents');
+	};
+})(jQuery);
+
+
 /*
 For concurrent animations of multiple properties call like:
 $('#foo').stretch({

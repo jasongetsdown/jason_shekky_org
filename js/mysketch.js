@@ -62,9 +62,9 @@ var mySketch = function($) {
 			tweeners = [];
 		
 		var makeTweeners = function() {
-			var i, len = 39;
+			var i, len = 77;
 			for (i = 0; i < len; i++) {
-				tweeners.push( tweener(i*10, 100, 0.5) );
+				tweeners.push( tweener(i*5, 100, 0.05) );
 			}
 		};
 		
@@ -105,7 +105,7 @@ var mySketch = function($) {
 		
 		p.draw = function(){
 			p.background(255);
-			if (p.frameCount % 2 === 0) {
+			if (p.frameCount % 40 === 0) {
 				setTweeners();
 			}
 			updateTweeners();

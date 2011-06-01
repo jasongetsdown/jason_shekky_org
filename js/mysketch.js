@@ -1,10 +1,12 @@
 var mySketch = function($) {
 	var processing;
 	
-	var tweener = function (x, y, step){
-		var tx = typeof x === 'number' ? x : 0;
-		var ty = typeof y === 'number' ? y : 0;
-		var damp = typeof damping === 'number' ? damping : 0;
+	var tweener = function (x, y, stepFactor){
+		var tx = typeof x === 'number' ? x : 0,
+			ty = typeof y === 'number' ? y : 0,
+			factor = typeof stepFactor === 'number' ? stepFactor : 0,
+			cx = tx,
+			cy = ty;
 		
 		var getX = function() {
 			return cx;
@@ -15,12 +17,12 @@ var mySketch = function($) {
 		};
 		
 		var setX = function(newX) {
-			this.tx = newX;
+			tx = newX;
 			return this;
 		};
 		
 		var setY = function(newY) {
-			this.ty = newY;
+			ty = newY;
 			return this;
 		};
 		
@@ -32,19 +34,19 @@ var mySketch = function($) {
 			var dx = tx - cx;
 			var dy = ty - cy;
 			
-			if (dx > damp) {
-				cx += (tx - cx) * damp;
+			if (dx > factor || dx < -factor) {
+				cx += dx * factor;
 			} else {
 				cx = tx;
 			}
-			if ( dy > damp) {
-				cy += (ty - cy) * damp;
+			if ( dy > factor || dy < -factor) {
+				cy += dy * factor;
 			} else {
 				cy = ty;
 			}
 		};
 		
-		return {
+		var exports = {
 			x: getX,
 			y: getY,
 			setX: setX,
@@ -52,24 +54,38 @@ var mySketch = function($) {
 			setTarget: setTarget,
 			update: update
 		};
+		return exports;
 	};
 	
 	var p5sketch = function(processing) {
 		var p = processing,
 			tweeners = [];
 		
+		var makeTweeners = function() {
+			var i, len = 39;
+			for (i = 0; i < len; i++) {
+				tweeners.push( tweener(i*10, 100, 0.5) );
+			}
+		};
+		
 		var setTweeners = function() {
-			//TODO	
+			var i, len = tweeners.length - 1;
+			for (i = 1; i < len; i++) {
+				tweeners[i].setY( Math.random() * 50 + 75 );
+			}
 		};
 		
 		var updateTweeners = function() {
-			//TODO	
+			var i, len = tweeners.length;
+			for (i = 0; i < len; i++) {
+				tweeners[i].update();
+			}	
 		};
 		
 		var drawLine = function() {
-			var i, len;
+			var i, len = tweeners.length;
 			p.beginShape();
-			for (i = 0, len = tweeners.length; i < len; i++) {
+			for (i = 0; i < len; i++) {
 				p.vertex( tweeners[i].x(), tweeners[i].y() );
 			}
 			p.endShape();
@@ -77,17 +93,19 @@ var mySketch = function($) {
 		
 		p.setup = function() {
 			p.size(380, 218);
-			p.frameRate(3);
+			p.frameRate(30);
 			p.background(255);
 			p.stroke(150);
 			p.strokeWeight(1);
 			p.noFill();
 			p.noSmooth();
+			
+			makeTweeners();
 		};
 		
 		p.draw = function(){
 			p.background(255);
-			if (p.frameCount % 30 === 0) {
+			if (p.frameCount % 2 === 0) {
 				setTweeners();
 			}
 			updateTweeners();

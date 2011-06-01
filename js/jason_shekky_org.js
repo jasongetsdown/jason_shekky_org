@@ -6,9 +6,9 @@
 	
 	var unloadContent = function() {
 		$('#content').unbind('click', closeCard);
-		
 		$('#p5canvas')
 			.fadeOut('fast');
+		mySketch.exit();
 	};
 	
 	var loadContent = function() {

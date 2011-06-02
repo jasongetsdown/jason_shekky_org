@@ -2,18 +2,19 @@
 	
 	var isOpen = false,
 		cursorFInTime = 800,
-		cursorFOutTime = 4500;
+		cursorFOutTime = 4500,
+		sketch = myCard.p5.sketch;
 	
 	var unloadContent = function() {
 		$('#content').unbind('click', closeCard);
 		$('#p5canvas')
 			.fadeOut('fast');
-		mySketch.exit();
+		sketch.exit();
 	};
 	
 	var loadContent = function() {
 		$('#content').click(closeCard);
-		mySketch.init( document.getElementById('p5canvas') );
+		sketch.init( document.getElementById('p5canvas') );
 		$('#p5canvas').fadeIn('fast');
 	};
 	

@@ -9,21 +9,23 @@ myCard.p5.sketch = function($) {
 		var makeTweeners = function() {
 			var i, len = 77;
 			for (i = 0; i < len; i++) {
-				tweeners.push( makeTweener(i*5, 100, 0.05) );
+				tweeners[i] = [];
+				tweeners[i].push( makeTweener(i*5, 0.05) );
+				tweeners[i].push( makeTweener(100, 0.05) );
 			}
 		};
 		
 		var setTweeners = function() {
 			var i, len = tweeners.length - 1;
 			for (i = 1; i < len; i++) {
-				tweeners[i].setY( Math.random() * 50 + 75 );
+				tweeners[i][1].setTarget( Math.random() * 50 + 75 );
 			}
 		};
 		
 		var updateTweeners = function() {
 			var i, len = tweeners.length;
 			for (i = 0; i < len; i++) {
-				tweeners[i].update();
+				tweeners[i][1].update();
 			}	
 		};
 		
@@ -33,7 +35,7 @@ myCard.p5.sketch = function($) {
 			p.vertex(380, 0);
 			p.vertex(0, 0);
 			for (i = 0; i < len; i++) {
-				p.vertex( tweeners[i].x(), tweeners[i].y() );
+				p.vertex( tweeners[i][0].value(), tweeners[i][1].value() );
 			}
 			p.endShape('CLOSE');
 		};

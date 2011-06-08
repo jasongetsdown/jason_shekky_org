@@ -1,6 +1,6 @@
 (function($) {
 // .pulse() plugin
-	var isNumber = function(value) {
+	var isNumber = function( value ) {
 		return typeof value === 'number' && isFinite(value);
 	};
 	
@@ -22,7 +22,7 @@
 
 
 (function($) {
-	$.fn.bindCursorEvents = function(fadeInTime, fadeOutTime, callBack) {
+	$.fn.bindCursorEvents = function( fadeInTime, fadeOutTime, callBack ) {
 		var self = this;
 		self
 			.bind('mouseenter.cursorEvents', function() {

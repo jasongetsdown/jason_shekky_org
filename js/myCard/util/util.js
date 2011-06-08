@@ -1,6 +1,4 @@
-if (!myCard) {
-	var myCard = {};
-}
+var myCard = myCard ? myCard : {};
 
 myCard.util = {};
 

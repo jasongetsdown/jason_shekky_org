@@ -1,8 +1,95 @@
-if (!myCard) {
-	var myCard = {};
-}
+var myCard = myCard ? myCard : {};
 
-myCard.p5 = {};
+myCard.p5 = myCard.p5 ? myCard.p5 : {};
+
+
+/**
+ * Creates a line of points whose components are Tweeners
+ * @constructor
+ * @param params.length Number of points
+ * @param [params.startX = 0] X value of point n = 0
+ * @param [params.startY = 0] Y value of point n = 0
+ * @param [params.xInterval = 0] Point n has x = n * xInterval + startX
+ * @param [params.yInterval = 0] Point n has y = n * yInterval + startY
+ * */
+myCard.p5.OrderedTweenerList = function(params) {
+	if (!(this instanceof OrderedTweenerList)) {
+		return new OrderedTweenerList(params);
+	}
+	
+	var index = -1,
+		points = [],
+		o = {},
+		self = this;
+	
+	o.length = params.length;
+	o.startX = params.startX ? params.startX : 0;
+	o.startY = params.startY ? params.startY : 0;
+	o.xInterval = params.xInterval ? params.xInterval : 0;
+	o.yInterval = params.yInterval ? params.yInterval : 0;
+	
+	var dimensionPoints = function() {
+		var i, len;
+		for (i = 0, len = o.length; i < len; i++) {
+			points[i] = [];
+			points[i][0] = new Tweener(i * o.xInterval + o.startX);
+			points[i][1] = new Tweener(i * o.yInterval + o.starty);
+		}
+	};
+	
+	dimensionPoints();
+	
+	/** @function */
+	this.getXAtIndex = function(i) {
+		return points[i][0].getX();
+	};
+	
+	/** @function */
+	this.setXTargetAtIndex = function(i, tX) {
+		points[i][0].setTarget(tX);
+	};
+	
+	/** @function */
+	this.setYTargetAtIndex = function(i, tY) {
+		points[i][1].setTarget(tY);
+	};
+	
+	/**
+	 * Updates the position of each point and resets the iterator index
+	 * */
+	var update = function() {
+		var i, len;
+		for (i = 0, len = o.length; i < len; i++) {
+			points[i] = [];
+			points[i][0].update();
+			points[i][1].update();
+		}
+		index = -1;
+	};
+	
+	/** @function */
+	this.next = function() {
+		if (++index < o.length) {
+			return [
+				self.getXAtIndex(index),
+				self.getYAtIndex(index)
+			];
+		} else {
+			index = -1;
+			throw {
+				name: 'IterationException',
+				message: 'Iterator out of elements.'
+			};
+		}
+	};
+	
+	/** @function */
+	var hasNext = function() {
+		return (index + 1 < o.length);
+	};
+};
+
+
 
 myCard.p5.sketch = function() {
 	var processing,

@@ -1,19 +1,16 @@
-(function($) {
-// .require() plugin
-	$.fn.require = function( fileNameWithPath ) {
-		$('<script>')
-			.attr('src', fileNameWithPath)
-			.appendTo('body');
-	};
-	return this;
-})(jQuery);
+$.extend({
+	require: function( fileNameWithPath ) {
+	$('<script>')
+		.attr('src', fileNameWithPath)
+		.appendTo('body');
+	}
+});
 
-jQuery.require('js/processing-1.1.0.js')
-	.require('js/plugins.js')
-	.require('js/myCard/util/util.js')
-	.require('js/myCard/p5/p5.js');
-
-myCard = function($) {
+myCard.app = function($) {
+//	$.require('js/processing-1.1.0.js');
+//	$.require('js/plugins.js');
+//	$.require('js/myCard/util/util.js');
+//	$.require('js/myCard/p5/p5.js');
 	
 	var isOpen = false,
 		cursorFInTime = 800,

@@ -13,7 +13,7 @@ myCard.util.Tweener.create = function create( initial, stepFactor ) {
 		factor = typeof stepFactor === 'number' ? stepFactor : 0,
 		current = target;
 	
-	var getValue = function() {
+	var value = function() {
 		return current;
 	};
 	
@@ -36,7 +36,7 @@ myCard.util.Tweener.create = function create( initial, stepFactor ) {
 	};
 	
 	var exports = {
-		value: getValue,
+		value: value,
 		setTarget: setTarget,
 		update: update
 	};
